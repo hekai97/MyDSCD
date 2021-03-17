@@ -18,6 +18,8 @@ public:
     void getSortedArray(Tree*& tree,PersonArray* data);
 private:
     void getArray(Tree*& tree,PersonArray* data,int& index);
+    void deleteNode(Tree*& root);
+    void deleteNode1(Tree* root,Tree* r);
 };
 
 #endif // BINARYTREESORT_H

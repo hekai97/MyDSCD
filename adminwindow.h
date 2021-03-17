@@ -13,6 +13,8 @@
 #include "voter.h"
 #include "insertpersondialog.h"
 #include "insertvoterdialog.h"
+#include "updatepersondialog.h"
+
 namespace Ui {
 class AdminWindow;
 }
@@ -44,7 +46,18 @@ private slots:
 
     void on_pushButton_10_clicked();
 
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
 private:
+    MyArray* array;
+    PersonArray* personarray;
+    Tree* root;
+    BinaryTreeSort* bts;
+    void setMyArray();
+    void setMyTree();
+
+
     void connecttoMysql();
     Ui::AdminWindow *ui;
     QStandardItemModel *model;

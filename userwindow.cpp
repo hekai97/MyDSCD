@@ -51,6 +51,7 @@ void userWindow::setTable(){
     bts->initBTS(root,personarray);
     bts->getSortedArray(root,personarray);
     bts->deleteTree(root);
+    qDebug()<<"用户界面删的";
     model=new QStandardItemModel(personarray->length,7);
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("编号"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("姓名"));

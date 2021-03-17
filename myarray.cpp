@@ -35,7 +35,7 @@ bool MyArray::deleteMyArray(PersonArray*& myarray,Person data){
     {
         if(data==myarray->data[i])
         {
-            for(int j=i;j<myarray->length;++i)
+            for(int j=i;j<myarray->length;++j)
             {
                 myarray->data[j]=myarray->data[j+1];
             }
@@ -44,4 +44,14 @@ bool MyArray::deleteMyArray(PersonArray*& myarray,Person data){
         }
     }
     return false;
+}
+Person MyArray::findPerson(PersonArray *&myarray, QString number)
+{
+    for(int i=0;i<myarray->length;++i)
+    {
+        if(number==QString::fromLocal8Bit(myarray->data[i].getNumber()))
+        {
+            return myarray->data[i];
+        }
+    }
 }

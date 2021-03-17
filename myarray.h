@@ -13,6 +13,7 @@ public:
     void initMyArray(QSqlQuery sql,PersonArray*& myarray);
     bool insertMyArray(PersonArray*& myarray,Person data);
     bool deleteMyArray(PersonArray*& myarray,Person data);
+    Person findPerson(PersonArray*& myarray,QString name);
 };
 
 #endif // MYARRAY_H

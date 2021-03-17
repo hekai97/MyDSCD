@@ -20,6 +20,7 @@ SOURCES += \
     person.cpp \
     personarray.cpp \
     tree.cpp \
+    updatepersondialog.cpp \
     userwindow.cpp \
     voter.cpp
 
@@ -34,6 +35,7 @@ HEADERS += \
     person.h \
     personarray.h \
     tree.h \
+    updatepersondialog.h \
     userwindow.h \
     voter.h
 
@@ -42,6 +44,7 @@ FORMS += \
     insertpersondialog.ui \
     insertvoterdialog.ui \
     loginwindow.ui \
+    updatepersondialog.ui \
     userwindow.ui
 
 # Default rules for deployment.

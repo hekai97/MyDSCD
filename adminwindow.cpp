@@ -5,6 +5,8 @@ AdminWindow::AdminWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AdminWindow)
 {
+    setMyArray();
+    setMyTree();
     ui->setupUi(this);
     this->setWindowTitle("主页");
     connecttoMysql();
@@ -13,6 +15,7 @@ AdminWindow::AdminWindow(QWidget *parent) :
 AdminWindow::~AdminWindow()
 {
     delete ui;
+    bts->deleteTree(root);
 }
 void AdminWindow::connecttoMysql(){
     QSqlDatabase dbcon=QSqlDatabase::addDatabase("QMYSQL");
@@ -45,17 +48,24 @@ void AdminWindow::on_pushButton_3_clicked()
 {
     this->close();
 }
-void AdminWindow::setCandidateTable(){
+void AdminWindow::setMyArray()
+{
     QSqlQuery query;
     query.exec("select * from person");
-    MyArray* array=new MyArray();
-    PersonArray* personarray=nullptr;
+    array=new MyArray();
+    personarray=nullptr;
     array->initMyArray(query,personarray);
-    Tree* root=nullptr;
-    BinaryTreeSort* bts=new BinaryTreeSort();
+}
+void AdminWindow::setMyTree()
+{
+    root=nullptr;
+    bts=new BinaryTreeSort();
     bts->initBTS(root,personarray);
     bts->getSortedArray(root,personarray);
-    bts->deleteTree(root);
+}
+
+void AdminWindow::setCandidateTable(){
+    bts->getSortedArray(root,personarray);
     model=new QStandardItemModel(personarray->length,7);
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("编号"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("姓名"));
@@ -109,7 +119,7 @@ void AdminWindow::setVoterTable(){
     this->ui->tableView_2->setModel(model);
 }
 
-void AdminWindow::on_pushButton_4_clicked()             //新建一行
+void AdminWindow::on_pushButton_4_clicked()             //新建一行,添加候选人
 {
 //    QStandardItem *item=new QStandardItem(" ");
 //    model->appendRow(item);
@@ -118,9 +128,16 @@ void AdminWindow::on_pushButton_4_clicked()             //新建一行
 //    insertdialog.exec();
     InsertPersonDialog insertdialog;
     insertdialog.exec();
+    Person temp=insertdialog.getNewPerson();
+    if(temp.getNumber()!="")
+    {
+        array->insertMyArray(personarray,temp);
+        bts->insertBTS(root,temp);
+        emit this->ui->pushButton->clicked();
+    }
 }
 
-void AdminWindow::on_pushButton_6_clicked()             //清楚投票结果
+void AdminWindow::on_pushButton_6_clicked()             //清除投票结果
 {
     QMessageBox msgbox;
     QMessageBox::StandardButton selected=msgbox.information(nullptr,"提示","确定清除候选人的投票结果吗？",QMessageBox::Yes | QMessageBox::No,QMessageBox::Yes);
@@ -140,6 +157,13 @@ void AdminWindow::on_pushButton_5_clicked()             //删除候选人
     QMessageBox msgbox;
     QMessageBox::StandardButton selected=msgbox.information(nullptr,"提示","你确定要删除候选人:"+this->model->index(row,1).data().toString()+"？",QMessageBox::Yes | QMessageBox::No,QMessageBox::Yes);
     if(selected==QMessageBox::Yes){
+        /**在数组中找到该节点删除，并且将该节点从树上摘下来，重新遍历得到新的数组*/
+        Person temp=array->findPerson(personarray,s);
+        array->deleteMyArray(personarray,temp);
+        bts->deleteBTS(root,temp);
+        setCandidateTable();
+
+        /**从数据库中删除该数据*/
         QSqlQuery query;
         query.exec("delete from person where Pno="+s);
         QMessageBox::information(nullptr,"提示","删除成功",QMessageBox::Yes);
@@ -184,4 +208,16 @@ void AdminWindow::on_pushButton_10_clicked()
         QMessageBox::information(nullptr,"提示","提升权限成功,现在"+username+"用户可以以管理员身份登录");
         emit this->ui->pushButton_2->clicked();
     }
+}
+
+
+void AdminWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    UpdatePersonDialog updg;
+    updg.setPersonText(personarray->data[index.row()]);
+    bts->deleteTree(root);
+    updg.exec();
+    setMyArray();
+    setMyTree();
+    emit this->ui->pushButton->clicked();
 }

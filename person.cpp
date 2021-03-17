@@ -72,13 +72,36 @@ Person& Person::operator=(const Person& b) {
 }
 
 bool Person::operator==(const Person& b)const {
-    return this->voted == b.voted;
+    if(this->voted!=b.voted)
+    {
+        return false;
+    }
+    else
+    {
+        return this->number==b.number;
+    }
+//    return this->voted == b.voted;
 }
 bool Person::operator<(const Person& b)const {
-    return this->voted < b.voted;
+    if(this->voted!=b.voted)
+    {
+        return this->voted < b.voted;
+    }
+    else
+    {
+        return this->number>b.number;
+    }
 }
 bool Person::operator>(const Person& b)const {
-    return this->voted > b.voted;
+    if(this->voted!=b.voted)
+    {
+        return this->voted > b.voted;
+    }
+    else
+    {
+        //该处使用<的目的是将票数相同，编号小的往上排
+        return this->number<b.number;
+    }
 }
 
 //全局函数，重载QDebug中的<<运算符
