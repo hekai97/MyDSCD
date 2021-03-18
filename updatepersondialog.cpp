@@ -37,11 +37,8 @@ void UpdatePersonDialog::on_pushButton_clicked()
         QString sql="update Person set Pname='"+this->ui->lineEdit_2->text()+"',Psex='"+this->ui->lineEdit_3->text()+"',Peage='"+this->ui->lineEdit_4->text()+"',Pintroduction='"+this->ui->textEdit->toPlainText()+"',Pdescribe='"+this->ui->textEdit_2->toPlainText()+"' where Pno="+this->ui->lineEdit->text();
         QSqlQuery query;
         query.exec(sql);
-        QMessageBox::StandardButton res=QMessageBox::information(nullptr,"提示","修改成功",QMessageBox::Ok);
-        if(res==QMessageBox::Ok)
-        {
-            this->close();
-        }
+        QMessageBox::information(nullptr,"提示","修改成功",QMessageBox::Ok);
+        emit this->ui->pushButton_2->clicked();
     }
 }
 

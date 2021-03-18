@@ -221,3 +221,13 @@ void AdminWindow::on_tableView_doubleClicked(const QModelIndex &index)
     setMyTree();
     emit this->ui->pushButton->clicked();
 }
+
+
+void AdminWindow::on_tableView_2_doubleClicked(const QModelIndex &index)
+{
+    auto res=model->takeRow(index.row());
+    UpdateVoterDialog uvdg;
+    uvdg.setUserText(res[0]->text(),res[1]->text(),res[2]->text());
+    uvdg.exec();
+    emit this->ui->pushButton_2->clicked();
+}

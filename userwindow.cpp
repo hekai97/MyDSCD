@@ -52,14 +52,14 @@ void userWindow::setTable(){
     bts->getSortedArray(root,personarray);
     bts->deleteTree(root);
     qDebug()<<"用户界面删的";
-    model=new QStandardItemModel(personarray->length,7);
+    model=new QStandardItemModel(personarray->length,6);
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("编号"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("姓名"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("性别"));
     model->setHeaderData(3, Qt::Horizontal, QObject::tr("年龄"));
     model->setHeaderData(4, Qt::Horizontal, QObject::tr("所得票数"));
     model->setHeaderData(5, Qt::Horizontal, QObject::tr("介绍"));
-    model->setHeaderData(6, Qt::Horizontal, QObject::tr("详细简介"));
+    //model->setHeaderData(6, Qt::Horizontal, QObject::tr("详细简介"));
     int row=0;
     while(row<personarray->length){
         QStandardItem *item=new QStandardItem(QString::fromLocal8Bit(personarray->data[row].getNumber()));
@@ -68,14 +68,14 @@ void userWindow::setTable(){
         QStandardItem *item3=new QStandardItem(QString::number(personarray->data[row].getAge()));
         QStandardItem *item4=new QStandardItem(QString::number(personarray->data[row].getVoted()));
         QStandardItem *item5=new QStandardItem(QString::fromLocal8Bit(personarray->data[row].getIntroduction()));
-        QStandardItem *item6=new QStandardItem(QString::fromLocal8Bit(personarray->data[row].getDescribe()));
+        //QStandardItem *item6=new QStandardItem(QString::fromLocal8Bit(personarray->data[row].getDescribe()));
         model->setItem(row,0,item);
         model->setItem(row,1,item1);
         model->setItem(row,2,item2);
         model->setItem(row,3,item3);
         model->setItem(row,4,item4);
         model->setItem(row,5,item5);
-        model->setItem(row,6,item6);
+        //model->setItem(row,6,item6);
         ++row;
     }
 

@@ -14,6 +14,7 @@
 #include "insertpersondialog.h"
 #include "insertvoterdialog.h"
 #include "updatepersondialog.h"
+#include "updatevoterdialog.h"
 
 namespace Ui {
 class AdminWindow;
@@ -48,6 +49,8 @@ private slots:
 
 
     void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_tableView_2_doubleClicked(const QModelIndex &index);
 
 private:
     MyArray* array;
